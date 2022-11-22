@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "NgSpaGenerator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the application.",
+      "x-prompt": "Which name do you want to use for the Angular application?",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "pattern": "^([a-zA-Z0-9-]*)(-spa$)"
+    },
+    "teamName": {
+      "type": "string",
+      "description": "The team name.",
+      "x-prompt": "Which is the application's team name?"
+    },
+    "teamEmail": {
+      "type": "string",
+      "description": "The team email address.",
+      "x-prompt": "Which is the team contact email address?"
+    },
+    "style": {
+      "description": "The file extension to be used for style files.",
+      "type": "string",
+      "default": "scss",
+      "enum": [
+        "css",
+        "scss",
+        "sass",
+        "less"
+      ],
+      "x-prompt": {
+        "message": "Which stylesheet format would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "css",
+            "label": "CSS"
+          },
+          {
+            "value": "scss",
+            "label": "SASS(.scss)[ http://sass-lang.com ]"
+          },
+          {
+            "value": "sass",
+            "label": "SASS(.sass)[ http://sass-lang.com ]"
+          },
+          {
+            "value": "less",
+            "label": "LESS[ http://lesscss.org ]"
+          }
+        ]
+      }
+    },
+    "directory": {
+      "description": "The directory that will contain the new application.",
+      "type": "string"
+    },
+    "prefix": {
+      "description": "The prefix to apply to generated selectors.",
+      "type": "string"
+    },
+    "routing": {
+      "type": "boolean",
+      "description": "Generate a routing module.",
+      "x-prompt": "Generate a routing module?"
+    },
+    "skipSystemTests": {
+      "type": "boolean",
+      "description": "Prevent creating the system tests project.",
+      "default": false
+    },
+    "appendToRootYaml": {
+      "type": "boolean",
+      "description": "Add newly created project config to the root yaml file?",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "teamName",
+    "teamEmail",
+    "prefix"
+  ]
+}

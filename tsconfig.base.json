@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-generators-demo/demo-plugin": ["libs/demo-plugin/src/index.ts"]
+      "@nx-generators/demo-plugin": ["libs/demo-plugin/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -19,6 +19,7 @@
     "@nrwl/angular": "15.0.10",
     "@nrwl/nx-plugin": "^15.0.10",
     "@swc/helpers": "~0.4.11",
+    "js-yaml": "^4.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

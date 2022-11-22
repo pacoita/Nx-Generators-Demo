@@ -1,0 +1,9 @@
+version: '2.1'
+components:
+  - name: nx-generators-demo
+    path: .
+    metadata:
+      annotations:
+        team: my-team
+        contact: admin@my-team.com
+

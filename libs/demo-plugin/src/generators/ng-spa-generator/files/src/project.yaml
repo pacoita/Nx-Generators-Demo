@@ -1,0 +1,9 @@
+---
+version: '2.1'
+components:
+    - name: '<%= name %>'
+      path: '<%= projectRoot %>'
+      metadata:
+          annotations:
+              team: '<%= teamName %>'
+              contact: '<%= teamEmail %>'

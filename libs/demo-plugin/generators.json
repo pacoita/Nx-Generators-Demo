@@ -7,6 +7,11 @@
       "factory": "./src/generators/demo-plugin/generator",
       "schema": "./src/generators/demo-plugin/schema.json",
       "description": "demo-plugin generator"
+    },
+    "ng-spa-generator": {
+      "factory": "./src/generators/ng-spa-generator/generator",
+      "schema": "./src/generators/ng-spa-generator/schema.json",
+      "description": "Generate a custom Angular app"
     }
   }
 }
