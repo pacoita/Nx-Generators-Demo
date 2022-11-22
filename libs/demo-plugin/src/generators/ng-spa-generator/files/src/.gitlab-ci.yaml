@@ -1,10 +1,10 @@
 # This is only an example of .yml file
 include:
-  - project: 'mycompany/deploy/deploy-stack'
+  - project: 'my-company/deploy/deploy-stack'
     file: '/deploy-paclib/my-pipeline.gitlab-ci.yml'
     ref: 1.0.123456
 
 variables:
   WORKING_DIR: ${CI_PROJECT_DIR}/<%= projectRoot %>
-  DIST_FOLDER: ${CI_PROJECT_DIR}/dist/<%= updatedRootDir %>
+  DIST_FOLDER: ${CI_PROJECT_DIR}/dist/<%= rootDir %>
   DIST_FOLDER_RWC: ${DIST_FOLDER}/<%= name %>

@@ -1,7 +1,7 @@
 {
-    "name": "@nx-generators-demo/<%= name %>",
+    "name": "@nx-generators/<%= name %>",
     "private": true,
     "scripts": {
-        "ci:system-test": "cd ../../<%= locals.directory ? '../' : '' %> && npx nx e2e <%= locals.directory ? locals.directory + '-' : '' %><%= name %>-system-test"
+        "ci:system-test": "cd <%= locals.pathLevel %> && npx nx e2e <%= locals.projectName %>-system-test"
     }
 }

@@ -9,7 +9,7 @@ interface NormalizedSchema extends SpaGeneratorSchema {
     projectName: string;
     projectRoot: string;
     projectDirectory: string;
-    updatedRootDir: string;
+    rootDir: string;
 }
 
 function normalizeOptions(tree: Tree, options: SpaGeneratorSchema): NormalizedSchema {
@@ -17,29 +17,43 @@ function normalizeOptions(tree: Tree, options: SpaGeneratorSchema): NormalizedSc
     const projectDirectory = options.directory ? `${names(options.directory).fileName}/${name}` : name;
     const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
     const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
-    const updatedRootDir = options.directory
+    const rootDir = options.directory
         ? `${getWorkspaceLayout(tree).appsDir}/${names(options.directory).fileName}`
         : getWorkspaceLayout(tree).appsDir;
 
     return {
         ...options,
-        projectName,
-        projectRoot,
-        projectDirectory,
-        updatedRootDir
+        // Eg. directory: "parent" -- app name: "myApp"
+        projectDirectory,  // parent/my-app
+        projectName,       // parent-my-app
+        projectRoot,       // apps/parent/my-app
+        rootDir            // apps/parent
     };
 }
 
-function addFiles(tree: Tree, folderName: string, options: NormalizedSchema, target?: string) {
+/**
+ * Generic method to provide metadata to template files.
+ * @param tree - The virtual file system tree.
+ * @param srcFolder - The source folder containing the target files.
+ * @param options - Schema options. 
+ * @param target - Optional destination folder. Default: project root location.
+ */
+function addFiles(tree: Tree, srcFolder: string, options: NormalizedSchema, target?: string) {
     const templateOptions = {
         ...options,
         pathLevel: options.directory ? '../../../' : '../../'
     };
     const targetFolder = target ?? options.projectRoot;
 
-    generateFiles(tree, path.join(__dirname, folderName), targetFolder, templateOptions);
+    generateFiles(tree, path.join(__dirname, srcFolder), targetFolder, templateOptions);
 }
 
+/**
+ * Appends a new project section to the root yaml file.
+ * @param tree - The virtual file system tree.
+ * @param srcFolder - The source folder containing the target files.
+ * @param options - Schema options.
+ */
 function updateRootYamlFile(tree: Tree, options: NormalizedSchema) {
     const rootMobiYaml = load(tree.read('project.yaml')?.toString());
     if (!rootMobiYaml) {
@@ -53,9 +67,17 @@ function updateRootYamlFile(tree: Tree, options: NormalizedSchema) {
     tree.delete(`${options.projectRoot}/project.yaml`);
 }
 
-async function updateSystemTests(tree: Tree, options: NormalizedSchema) {
+/**
+ * Generic method to provide metadata to template files.
+ * @param tree - The virtual file system tree.
+ * @param srcFolder - The source folder containing the target files.
+ * @param options - Schema options. 
+ * @param target - Optional destination folder. Default: project root location.
+ * @param suffix - Optional e2e tests folder name. Default: "system-test".
+ */
+async function updateSystemTests(tree: Tree, options: NormalizedSchema, suffix = 'system-test') {
     const e2eFolderPath = `${options.projectRoot}-e2e`;
-    const targetUrl = `${options.projectDirectory}-system-test`;
+    const targetUrl = `${options.projectDirectory}-${suffix}`;
     if (tree.exists(e2eFolderPath)) {
         const moveE2ESchema: Schema = {
             projectName: `${options.projectName}-e2e`,
@@ -65,13 +87,15 @@ async function updateSystemTests(tree: Tree, options: NormalizedSchema) {
 
         await angularMoveGenerator(tree, moveE2ESchema);
 
-        addFiles(tree, 'system-test-files/src', options, `${options.projectRoot}-system-test`);
+        // Transforms template files for the e2e tests. Source folder: "system-test-file".
+        addFiles(tree, 'system-test-files/src', options, `${options.projectRoot}-${suffix}`);
     }
 }
 
 export default async function (tree: Tree, options: SpaGeneratorSchema) {
     const normalizedOptions = normalizeOptions(tree, options);
 
+    // Generates a new Angular application
     await applicationGenerator(tree, {
         name: normalizedOptions.projectDirectory,
         style: normalizedOptions.style,
