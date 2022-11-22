@@ -15,12 +15,12 @@ export default defineConfig({
     viewportWidth: 1600,
     viewportHeight: 768,
     e2e: {
-        // setupNodeEvents(
-        //     on: Cypress.PluginEvents,
-        //     config: Cypress.PluginConfigOptions
-        // ): Promise<Cypress.PluginConfigOptions | void> | Cypress.PluginConfigOptions | void {
-        //     // configure plugins here
-        // },
+        setupNodeEvents(
+            on: Cypress.PluginEvents,
+            config: Cypress.PluginConfigOptions
+        ): Promise<Cypress.PluginConfigOptions | void> | Cypress.PluginConfigOptions | void {
+            // configure plugins here
+        },
         baseUrl: 'http://localhost:4200',
         specPattern: './src/e2e/**/*.cy.{js,jsx,ts,tsx}',
         supportFile: './src/support/e2e.ts'
