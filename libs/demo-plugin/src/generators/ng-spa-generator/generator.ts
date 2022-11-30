@@ -68,7 +68,7 @@ function updateRootYamlFile(tree: Tree, options: NormalizedSchema) {
 }
 
 /**
- * Generic method to provide metadata to template files.
+ * Method to rename the e2e tests folder.
  * @param tree - The virtual file system tree.
  * @param srcFolder - The source folder containing the target files.
  * @param options - Schema options. 
