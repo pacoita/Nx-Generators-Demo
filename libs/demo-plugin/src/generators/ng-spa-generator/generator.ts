@@ -95,7 +95,7 @@ async function updateSystemTests(tree: Tree, options: NormalizedSchema, suffix =
 export default async function (tree: Tree, options: SpaGeneratorSchema) {
     const normalizedOptions = normalizeOptions(tree, options);
 
-    // Generates a new Angular application
+    // Generates a new Angular application using the NX/Angular plugin
     await applicationGenerator(tree, {
         name: normalizedOptions.projectDirectory,
         style: normalizedOptions.style,
@@ -105,6 +105,7 @@ export default async function (tree: Tree, options: SpaGeneratorSchema) {
         e2eTestRunner: normalizedOptions.skipSystemTests ? E2eTestRunner.None : E2eTestRunner.Cypress
     });
 
+    // Targeting the file templates in 'files/src' folder
     addFiles(tree, 'files/src', normalizedOptions);
 
     if (!normalizedOptions.skipSystemTests) {

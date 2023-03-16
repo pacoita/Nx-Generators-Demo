@@ -1,4 +1,4 @@
-# This is only an example of .yml file
+# Example of .yml file using Embedded JavaScript templating (EJS) syntax.
 include:
   - project: 'my-company/deploy/deploy-stack'
     file: '/deploy-paclib/my-pipeline.gitlab-ci.yml'
